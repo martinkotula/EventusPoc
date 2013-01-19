@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventusPoc.WebApp", "..\src\EventusPoc.WebApp\EventusPoc.WebApp.csproj", "{12E25F48-68DC-41AC-8F97-AB8ECC7FA2C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventusPoc.Core", "..\src\EventusPoc.Core\EventusPoc.Core.csproj", "{D797C38F-A30A-48AD-AC02-96A3B6041D4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventusPoc.DataAccess", "..\src\EventusPoc.DataAccess\EventusPoc.DataAccess.csproj", "{AE699F88-E69D-4B7E-89A7-6D2FAE929726}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12E25F48-68DC-41AC-8F97-AB8ECC7FA2C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12E25F48-68DC-41AC-8F97-AB8ECC7FA2C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12E25F48-68DC-41AC-8F97-AB8ECC7FA2C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12E25F48-68DC-41AC-8F97-AB8ECC7FA2C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D797C38F-A30A-48AD-AC02-96A3B6041D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D797C38F-A30A-48AD-AC02-96A3B6041D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D797C38F-A30A-48AD-AC02-96A3B6041D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D797C38F-A30A-48AD-AC02-96A3B6041D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE699F88-E69D-4B7E-89A7-6D2FAE929726}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE699F88-E69D-4B7E-89A7-6D2FAE929726}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE699F88-E69D-4B7E-89A7-6D2FAE929726}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE699F88-E69D-4B7E-89A7-6D2FAE929726}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

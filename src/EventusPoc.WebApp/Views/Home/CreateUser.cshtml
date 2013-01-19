@@ -1,0 +1,14 @@
+﻿@model EventusPoc.Core.Model.User
+@{
+    ViewBag.Title = "CreateUser";
+}
+
+<h2>Dodaj gracza</h2>
+@using (Html.BeginForm())
+{
+    @Html.EditorFor(m => m.Login)
+    @Html.CheckBoxFor(m => m.IsSubscribed)
+    @Html.LabelFor(m => m.IsSubscribed)
+    <input type="submit" value="Dodaj" />
+}
+
