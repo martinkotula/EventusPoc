@@ -1,0 +1,92 @@
+﻿@model EventusPoc.Core.Model.Event
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit", "event", FormMethod.Post, new { data_bind = "submit: addTask" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Event</legend>
+
+        @Html.HiddenFor(model => model.EventId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Date)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Date)
+            @Html.ValidationMessageFor(model => model.Date)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Price)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Price)
+            @Html.ValidationMessageFor(model => model.Price)
+        </div>
+
+        Zapisani gracze:
+        @foreach (var player in Model.EventParticipants)
+        {
+            <div>@player.User.Login</div>
+        }
+        
+        Add task: <input data-bind="value: newTaskText" placeholder="What needs to be done?" />
+        <button type="submit">Add</button>
+        
+        <ul data-bind="foreach: tasks, visible: tasks().length > 0">
+            <li>
+                <input type="checkbox" data-bind="checked: isDone" />
+                <input data-bind="value: title, disable: isDone" />
+                <a href="#" data-bind="click: $parent.removeTask">Delete</a>
+            </li> 
+        </ul>
+
+        You have <b data-bind="text: incompleteTasks().length">&nbsp;</b> incomplete task(s)
+        <span data-bind="visible: incompleteTasks().length == 0"> - it's beer time!</span>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+    function Task(data) {
+        this.title = ko.observable(data.title);
+        this.isDone = ko.observable(data.isDone);
+    }
+
+    function TaskListViewModel() {
+        // Data
+        var self = this;
+        self.tasks = ko.observableArray([]);
+        self.newTaskText = ko.observable();
+        self.incompleteTasks = ko.computed(function() {
+            return ko.utils.arrayFilter(self.tasks(), function(task) { return !task.isDone() });
+        });
+
+        // Operations
+        self.addTask = function() {
+            self.tasks.push(new Task({ title: this.newTaskText() }));
+            self.newTaskText("");
+        };
+        self.removeTask = function(task) { self.tasks.remove(task) };
+    }
+
+    ko.applyBindings(new TaskListViewModel());
+        </script>
+}

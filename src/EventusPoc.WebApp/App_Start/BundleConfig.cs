@@ -11,6 +11,12 @@ namespace EventusPoc.WebApp
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-1.*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/knockout").
+                Include("~/Scripts/knockout-2.*"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryplugins").
+                Include("~/Scripts/jquery.watermark.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui*"));
 

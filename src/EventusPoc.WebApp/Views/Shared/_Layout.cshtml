@@ -15,16 +15,16 @@
                     @RenderSection("Header")
                 } else {
                     <h1>@ViewBag.Title</h1>
+                    @Html.ActionLink("Home", "index", "Home", routeValues: null, htmlAttributes: new { data_icon = "home" })
                     @Html.Partial("_LoginPartial")
                 }
             </div>
             <div data-role="content">
                 @RenderBody()
             </div>
-            <div>@Html.ActionLink("Strona główna", "index", "home")</div>
         </div>
 
-        @Scripts.Render("~/bundles/jquery", "~/bundles/jquerymobile")
+        @Scripts.Render("~/bundles/jquery", "~/bundles/jquerymobile", "~/bundles/jqueryplugins", "~/bundles/knockout")
         @RenderSection("scripts", required: false)
     </body>
 </html>
