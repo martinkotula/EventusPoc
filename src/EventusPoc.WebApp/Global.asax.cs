@@ -1,4 +1,5 @@
 ﻿using EventusPoc.DataAccess;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,13 +13,13 @@ using System.Web.Routing;
 
 namespace EventusPoc.WebApp
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-
     public class MvcApplication : System.Web.HttpApplication
     {
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         protected void Application_Start()
         {
+            logger.Info("Application start");
             // compact db configuration
             Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
             Database.SetInitializer(new CreateDatabaseIfNotExists<EventusPocDbContext>());
@@ -29,6 +30,15 @@ namespace EventusPoc.WebApp
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-       }
+        }
+
+        protected void Application_Error()
+        {
+            logger.Error(Context.Error);
+        }
+
+
+
+       
     }
 }
