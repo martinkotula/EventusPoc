@@ -1,5 +1,8 @@
-﻿using System;
+﻿using EventusPoc.DataAccess;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -16,6 +19,10 @@ namespace EventusPoc.WebApp
     {
         protected void Application_Start()
         {
+            // compact db configuration
+            Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
+            Database.SetInitializer(new CreateDatabaseIfNotExists<EventusPocDbContext>());
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
