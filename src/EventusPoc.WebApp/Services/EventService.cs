@@ -21,16 +21,17 @@ namespace EventusPoc.WebApp.Services
         public ICollection<Event> GetUpcommingEvents()
         {
             // TODO datetime.now from dateTime provider
-            return dbContext.Events.Where(e => e.Date >= DateTime.Now).ToList();
+            return dbContext.Events.Where(e => e.Date >= DateTime.Now).OrderBy(e => e.Date).ToList();
         }
 
-        public ICollection<Event> GetArchivedEvents(int? n)
+        public ICollection<Event> GetArchivedEvents(int? n = null)
         {
             // TODO datetime.now from dateTime provider
-            var events = dbContext.Events.Where(e => e.Date < DateTime.Now);
+            var events = dbContext.Events.Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date);
             if (n.HasValue)
-                events = events.Take(n.Value);
-            return events.ToList();
+                return events.Take(n.Value).ToList();
+            else 
+                return events.ToList();
         }
     }
 }

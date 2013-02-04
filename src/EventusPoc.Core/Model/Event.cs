@@ -15,6 +15,7 @@ namespace EventusPoc.Core.Model
         public int EventId { get; set; }
         public DateTime Date { get; set; }
         public decimal Price { get; set; }
+        public bool IsAccounted { get; set; }
 
         public virtual ICollection<EventParticipant> EventParticipants { get; set; }
     }

@@ -28,7 +28,13 @@ namespace EventusPoc.WebApp.Controllers
 
         public ActionResult Index()
         {
-            return View(eventService.GetUpcommingEvents());
+            EventsListViewModel vm = new EventsListViewModel()
+            {
+                UpcommingEvents = eventService.GetUpcommingEvents(),
+                ArchivedEvents = eventService.GetArchivedEvents()
+            };
+
+            return View(vm);
         }
 
         //
@@ -77,9 +83,6 @@ namespace EventusPoc.WebApp.Controllers
             return View(@event);
         }
 
-        //
-        // GET: /Event/Edit/5
-
         public ActionResult Edit(int id = 0)
         {
             Event @event = db.Events.Find(id);
@@ -89,9 +92,6 @@ namespace EventusPoc.WebApp.Controllers
             }
             return View(@event);
         }
-
-        //
-        // POST: /Event/Edit/5
 
         [HttpPost]
         public ActionResult Edit(Event @event)
@@ -105,9 +105,6 @@ namespace EventusPoc.WebApp.Controllers
             return View(@event);
         }
 
-        //
-        // GET: /Event/Delete/5
-
         public ActionResult Delete(int id = 0)
         {
             Event @event = db.Events.Find(id);
@@ -118,9 +115,6 @@ namespace EventusPoc.WebApp.Controllers
             return View(@event);
         }
 
-        //
-        // POST: /Event/Delete/5
-
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -128,6 +122,12 @@ namespace EventusPoc.WebApp.Controllers
             db.Events.Remove(@event);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult SettleDebts(int id)
+        {
+            Event @event = db.Events.Find(id);
+            return View(@event);
         }
 
         [ChildActionOnly]

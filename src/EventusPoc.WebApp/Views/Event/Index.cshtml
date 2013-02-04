@@ -1,12 +1,16 @@
-﻿@model IEnumerable<EventusPoc.Core.Model.Event>
+﻿@model EventsListViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Eventy";
 }
-
-<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-@Html.Partial("_EventList", Model)
+<h2>Najbliższe wydarzenia: </h2>
+<br />
+@Html.Partial("_EventList", Model.UpcommingEvents)
+
+<h2>Wcześniejsze wydarzenia: </h2>
+<br />
+@Html.Partial("_EventList", Model.ArchivedEvents)

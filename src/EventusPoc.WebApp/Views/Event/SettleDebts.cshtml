@@ -1,0 +1,43 @@
+﻿@model EventusPoc.Core.Model.Event
+
+@{
+    ViewBag.Title = "Rozlicz event";
+}
+
+<h2>Rozlicz event</h2>
+@using(Html.BeginForm())
+{
+    <table>
+        <tr>
+            <th>
+                Gracz
+            </th>
+            <th>
+                Był?
+            </th>
+            <th>
+                Zapłacił?
+            </th>
+        </tr>
+
+    @foreach (var participant in Model.EventParticipants) {
+        <tr>
+            <td>
+                @participant.User.Login
+            </td>
+            <td>
+                @Html.CheckBoxFor(m => participant.User.IsSubscribed)
+            </td>
+            <td>
+                <div class="editor-label">
+                    sss
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => participant.User.IsSubscribed)
+                </div>
+            </td>
+        </tr>
+    }
+
+    </table>
+}
