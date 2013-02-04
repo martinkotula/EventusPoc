@@ -1,0 +1,34 @@
+﻿@model EventusPoc.WebApp.ViewModels.ParticipantListViewModel
+
+
+<br />
+<fieldset>
+    <legend>Lista zapisanych graczy</legend>
+    <form></form>
+    @using (Ajax.BeginForm("ParticipantList", null, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "participantListAjax",
+        OnComplete = "participantListComplete"
+    }, new { data_role = "popup" }))
+    {
+        @Html.HiddenFor(m => m.EventId)
+        <table>
+            @foreach (var participant in Model.EventParticipants)
+            {
+            <tr>
+                <td>@participant.User.Login</td>
+            </tr>    
+            }
+        </table>
+        @Html.DropDownListFor(m => m.AddedUserId, Model.AvailableUsers)
+        <input id="addParticipant" type="submit" value="Dodaj" data-ajax="false"/>
+    }
+</fieldset>
+
+<script type="text/javascript">
+    function participantListComplete() {
+        $('#participantListAjax').trigger('create');
+    }
+</script>

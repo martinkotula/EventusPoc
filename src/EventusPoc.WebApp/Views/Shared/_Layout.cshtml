@@ -9,7 +9,7 @@
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
-        <div data-role="page" data-theme="b">
+        <div data-role="page" data-theme="d" data-url="@Url.RequestContext.HttpContext.Request.RawUrl">
             <div data-role="header">
                 @if (IsSectionDefined("Header")) {
                     @RenderSection("Header")
@@ -27,7 +27,13 @@
             </div>
         </div>
 
-        @Scripts.Render("~/bundles/jquery", "~/bundles/jquerymobile", "~/bundles/jqueryplugins", "~/bundles/knockout")
+        @Scripts.Render("~/bundles/jquery", "~/bundles/jqueryplugins", "~/bundles/jqueryval")
+        <script type="text/javascript">
+             $(document).bind("mobileinit", function () {
+                 $.mobile.ajaxEnabled = false;
+             });
+        </script>
+        @Scripts.Render("~/bundles/jquerymobile")
         @RenderSection("scripts", required: false)
     </body>
 </html>

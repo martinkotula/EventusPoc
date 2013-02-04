@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -37,7 +38,11 @@ namespace EventusPoc.WebApp
             logger.Error(Context.Error);
         }
 
-
+        protected void Application_BeginRequest()
+        {
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(1045);
+            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(1045);
+        }
 
        
     }

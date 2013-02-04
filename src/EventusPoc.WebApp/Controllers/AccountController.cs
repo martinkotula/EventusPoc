@@ -39,7 +39,7 @@ namespace EventusPoc.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                if (IsUserAuthorized(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl))
@@ -59,6 +59,11 @@ namespace EventusPoc.WebApp.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private bool IsUserAuthorized(string userName, string password)
+        {
+            return userName == "szwagier" && password == "szwagiernia";
         }
 
         //
