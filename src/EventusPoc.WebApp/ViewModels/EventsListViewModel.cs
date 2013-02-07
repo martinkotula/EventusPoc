@@ -9,6 +9,6 @@ namespace EventusPoc.WebApp.ViewModels
     public class EventsListViewModel
     {
         public ICollection<Event> UpcommingEvents { get; set; }
-        public ICollection<Event> ArchivedEvents { get; set; }
+        public ICollection<Event> UnaccountedEvents { get; set; }
     }
 }

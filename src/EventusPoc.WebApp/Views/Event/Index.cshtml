@@ -5,12 +5,12 @@
 }
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Nowe wydarzenie", "Create", null, new { data_role = "button" })
 </p>
 <h2>Najbliższe wydarzenia: </h2>
 <br />
 @Html.Partial("_EventList", Model.UpcommingEvents)
 
-<h2>Wcześniejsze wydarzenia: </h2>
+<h2>Odbyte - nierozliczone wydarzenia: </h2>
 <br />
-@Html.Partial("_EventList", Model.ArchivedEvents)
+@Html.Partial("_EventList", Model.UnaccountedEvents)

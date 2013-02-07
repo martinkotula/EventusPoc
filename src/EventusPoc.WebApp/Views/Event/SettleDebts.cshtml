@@ -1,43 +1,48 @@
-﻿@model EventusPoc.Core.Model.Event
+﻿@model SettleDebtsViewModel
 
 @{
     ViewBag.Title = "Rozlicz event";
 }
 
-<h2>Rozlicz event</h2>
+<h3>Termin: @Model.EventDate</h3>
+
 @using(Html.BeginForm())
-{
+{   
+    <input type="submit" value="Rozlicz" id="SaveButton" name="SaveButton"/>
+    @Html.HiddenFor(m => m.EventId)
+    @Html.HiddenFor(m => m.EventDate)
     <table>
-        <tr>
-            <th>
-                Gracz
-            </th>
-            <th>
-                Był?
-            </th>
-            <th>
-                Zapłacił?
-            </th>
-        </tr>
-
-    @foreach (var participant in Model.EventParticipants) {
-        <tr>
-            <td>
-                @participant.User.Login
-            </td>
-            <td>
-                @Html.CheckBoxFor(m => participant.User.IsSubscribed)
-            </td>
-            <td>
-                <div class="editor-label">
-                    sss
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => participant.User.IsSubscribed)
-                </div>
-            </td>
-        </tr>
-    }
-
+        <thead>
+            <tr>
+                <th>Gracz</th>
+                <th>Był?</th>
+                <th>Zapłacił?</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0; i < Model.Participants.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Model.Participants[i].Login
+                    @Html.HiddenFor(m => m.Participants[i].Login)
+                    @Html.HiddenFor(m => m.Participants[i].UserId)
+                </td>
+                <td>
+                    @Html.CheckBoxFor(m => m.Participants[i].WasPresent)
+                    @Html.LabelFor(m => m.Participants[i].WasPresent, " ")
+                </td>
+                <td>
+                    @Html.CheckBoxFor(m => m.Participants[i].HasPaid)
+                    @Html.LabelFor(m => m.Participants[i].HasPaid, " ")
+                </td>
+            </tr>
+        }
+        </tbody>
     </table>
+    <h3>Dodaj gracza spoza listy:</h3>
+    @Html.DropDownListFor(m => m.AddedUserId, Model.AvailableUsers)
+    <br />
+    <input type="submit" value="Dodaj gracza" id="AddPlayerButton" name="AddPlayerButton"/>
+    
 }

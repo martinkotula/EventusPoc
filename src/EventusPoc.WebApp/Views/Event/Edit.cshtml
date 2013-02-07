@@ -1,10 +1,8 @@
 ﻿@model EventusPoc.Core.Model.Event
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edycja";
 }
-
-<h2>Edit</h2>
 
 @using (Html.BeginForm())
 {
@@ -19,6 +17,7 @@
             @Html.LabelFor(model => model.Date)
         </div>
         <div class="editor-field">
+            @*<input type="text" id="@Html.IdFor(m => m.Date)" name="@Html.IdFor(m => m.Date)"/>*@
             @Html.EditorFor(model => model.Date)
             @Html.ValidationMessageFor(model => model.Date)
         </div>

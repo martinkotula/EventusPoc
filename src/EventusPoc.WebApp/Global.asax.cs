@@ -40,8 +40,6 @@ namespace EventusPoc.WebApp
 
         protected void Application_BeginRequest()
         {
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(1045);
-            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(1045);
         }
 
        

@@ -31,7 +31,7 @@ namespace EventusPoc.WebApp.Controllers
             EventsListViewModel vm = new EventsListViewModel()
             {
                 UpcommingEvents = eventService.GetUpcommingEvents(),
-                ArchivedEvents = eventService.GetArchivedEvents()
+                UnaccountedEvents = eventService.GetUnaccountedEvents()
             };
 
             return View(vm);
@@ -127,7 +127,71 @@ namespace EventusPoc.WebApp.Controllers
         public ActionResult SettleDebts(int id)
         {
             Event @event = db.Events.Find(id);
-            return View(@event);
+            SettleDebtsViewModel vm = new SettleDebtsViewModel()
+            {
+                EventId = id,
+                EventDate = @event.FormattedDate,
+                AvailableUsers = eventService.GetAvailableUsersForEvent(@event.EventId),
+                Participants = @event.EventParticipants.Select(p => new SettleDebtsPlayerViewModel()
+                {
+                    Login = p.User.Login,
+                    UserId = p.User.Id,
+                    WasPresent = p.WasPresent,
+                    HasPaid = p.IsPaid
+                }).ToList()
+            };
+            return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult SettleDebts(SettleDebtsViewModel vm)
+        {
+            if (vm.IsAddPlayerButtonClicked)
+            {
+                User user = db.Users.Find(vm.AddedUserId);
+                vm.Participants.Add(new SettleDebtsPlayerViewModel()
+                {
+                    UserId = vm.AddedUserId,
+                    Login = user.Login,
+                    HasPaid = false,
+                    WasPresent = true
+                });
+                vm.AvailableUsers = eventService.GetAvailableUsersForEvent(vm.EventId);
+                return View(vm);
+            }
+            if (vm.IsSaveButtonClicked)
+            {
+                Event @event = db.Events.Find(vm.EventId);
+                foreach (var participant in vm.Participants)
+                {
+                    EventParticipant ep = db.EventParticipants.Where(p => p.User.Id == participant.UserId && p.Event.EventId == vm.EventId).SingleOrDefault();
+                    if (ep == null)
+                    {
+                        // uzytkownik dodany przy rozliczeniu
+                        ep = new EventParticipant()
+                        {
+                            Event = @event,
+                            User = db.Users.Find(participant.UserId),
+                            IsPaid = participant.HasPaid,
+                            WasPresent = participant.WasPresent,
+                            WasAnnounced = false
+                        };
+                        db.EventParticipants.Add(ep);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        // uzytkownik zapisany wczesniej
+                        ep.IsPaid = participant.HasPaid;
+                        ep.WasAnnounced = true;
+                        ep.WasPresent = participant.WasPresent;
+                        db.SaveChanges();
+                    }
+                }
+                return RedirectToAction("index");
+            }
+            
+            return View(vm);
         }
 
         [ChildActionOnly]
@@ -138,7 +202,7 @@ namespace EventusPoc.WebApp.Controllers
             {
                 EventId = eventId,
                 EventParticipants = @event.EventParticipants.ToList(),
-                AvailableUsers = GetAvailableUserForEvent(@event)
+                AvailableUsers = eventService.GetAvailableUsersForEvent(eventId)
             };
 
             return PartialView(vm);
@@ -148,54 +212,19 @@ namespace EventusPoc.WebApp.Controllers
         public PartialViewResult ParticipantList(ParticipantListViewModel vm)
         {
             var @event = db.Events.Find(vm.EventId);
-            var user = db.Users.Find(vm.AddedUserId);
-            AddParticipantToEvent(@event, user);
+            eventService.AddParticipantToEvent(@event.EventId, vm.AddedUserId);
             
             vm.EventParticipants = @event.EventParticipants.ToList();
-            vm.AvailableUsers = GetAvailableUserForEvent(@event);
+            vm.AvailableUsers = eventService.GetAvailableUsersForEvent(vm.EventId);
 
             return PartialView(vm);
         }
+
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
             base.Dispose(disposing);
-        }
-
-        private IEnumerable<SelectListItem> GetAvailableUserForEvent(Event @event)
-        {
-            var participants = @event.EventParticipants.Select(ep => ep.User.Id).ToList();
-
-
-            var availableUsers = from u in db.Users
-                                 where !participants.Contains(u.Id)
-                                 select u;
-
-            return availableUsers.ToList().Select(au => new SelectListItem()
-                {
-                    Text = au.Login,
-                    Value = au.Id.ToString()
-                }).ToList(); 
-            //var availableUsers = db.Users.Except(participants).ToList();
-            //return availableUsers.Select(p => 
-        }
-
-
-        private void AddParticipantToEvent(Event @event, User user)
-        {
-            if (@event != null && user != null)
-            {
-                @event.EventParticipants.Add(new EventParticipant()
-                {
-                    Event = @event,
-                    IsPaid = false,
-                    User = user,
-                    WasAnnounced = true,
-                    WasPresent = true
-                });
-
-                db.SaveChanges();
-            }
         }
 
     }

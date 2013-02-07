@@ -1,12 +1,12 @@
 ﻿@model List<EventusPoc.Core.Model.Event>
 
-<table>
+<table data-role="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.First().Date)
+            Data
         </th>
         <th>
-            Zapisanych
+            Gracze
         </th>
         <th></th>
     </tr>
@@ -14,15 +14,14 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @item.Date.ToString("f")
+            <a href="@Url.Action("edit", new { id = item.EventId })">@item.FormattedShortDate</a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EventParticipants.Count)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
+            @Html.ActionLink("Rozlicz", "SettleDebts", new { id = item.EventId }, new { data_role="button", data_mini="true"} )
+            @Html.ActionLink("Usuń", "Delete", new { id=item.EventId } , new { data_role="button", data_mini="true"} )
         </td>
     </tr>
 }

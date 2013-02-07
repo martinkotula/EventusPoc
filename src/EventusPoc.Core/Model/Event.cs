@@ -18,5 +18,23 @@ namespace EventusPoc.Core.Model
         public bool IsAccounted { get; set; }
 
         public virtual ICollection<EventParticipant> EventParticipants { get; set; }
+
+        public string FormattedDate
+        {
+            get
+            {
+                return this.Date.ToString("dddd, d MMMM yyyy, hh:mm");
+            }
+        }
+
+        public string FormattedShortDate
+        {
+            get
+            {
+                return this.Date.ToString("dd.MM, dddd");
+            }
+        }
+
+
     }
 }
